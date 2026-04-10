@@ -1,0 +1,44 @@
+
+Bài1
+SELECT 
+    COUNT(*) AS total_products,
+    AVG(price) AS avg_price,
+    MIN(price) AS min_price,
+    MAX(price) AS max_price
+FROM products;
+
+bài2
+SELECT 
+    s.supplier_name,
+    COUNT(p.product_id) AS total_products
+FROM suppliers s
+JOIN products p 
+    ON s.supplier_id = p.supplier_id
+GROUP BY s.supplier_name
+HAVING COUNT(p.product_id) > 1;
+
+
+Bài 3 
+SELECT 
+    order_id,
+    TO_CHAR(order_date, 'DD/MM/YYYY') AS formatted_date
+FROM orders
+WHERE EXTRACT(YEAR FROM order_date) = 2025
+  AND EXTRACT(MONTH FROM order_date) = 10;
+
+
+bài 4 
+
+SELECT 
+    c.full_name,
+    SUM(oi.quantity * oi.price) AS total_spent
+FROM customers c
+JOIN orders o 
+    ON c.customer_id = o.customer_id
+JOIN order_items oi 
+    ON o.order_id = oi.order_id
+GROUP BY c.full_name
+HAVING SUM(oi.quantity * oi.price) > 100000
+ORDER BY total_spent DESC;
+
+
